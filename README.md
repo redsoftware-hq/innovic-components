@@ -1,2 +1,3 @@
 # innovic-components
-Components for Innovic ERP
+
+Innovic Components to be used with for development using Angular 1.x.
