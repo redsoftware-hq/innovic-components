@@ -1,0 +1,14 @@
+<div style="{{$ctrl.icStyle}}" class="panel panel-{{$ctrl.theme || 'innovic'}}" ng-init="scopeId = $id">
+  <div ng-hide="$ctrl.hideHeading" class="panel-heading panel-heading-{{$ctrl.theme || 'innovic'}}">
+    <h3 class="panel-title" style="display: inline">
+      <a ng-if="$ctrl.isCollapsible" class="panel-heading-collapse {{$ctrl.isCollapsed ? 'collapsed' : ''}}" href="" data-toggle="collapse"
+        data-target="#innovicPanel_{{scopeId}}"></a> {{$ctrl.icTitle || 'Untitled'}}
+    </h3>
+    <div ng-if="$ctrl.hasTransclusion('topRight')" class="pull-right" ng-transclude="topRight"></div>
+  </div>
+  <div id="innovicPanel_{{scopeId}}" class="panel-collapse collapse {{$ctrl.isCollapsed ? '' : 'in'}} {{$ctrl.collapseClass}}">
+    <div class="panel-body" ng-transclude="body">
+    </div>
+    <div ng-if="$ctrl.hasTransclusion('footer')" class="panel-footer" ng-transclude="footer"></div>
+  </div>
+</div>

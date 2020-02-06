@@ -9,7 +9,7 @@ node_modules
 
 # grunt
 .tmp
-build
 src/__*.js
 
 npm-debug.log
+yarn-error.log

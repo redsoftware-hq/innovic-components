@@ -1,34 +1,33 @@
 {
   "name": "innovic-components",
   "version": "1.0.0",
-  "description": "Components for Innovic ERP",
-  "main": "index.js",
-  "repository": "https://github.com/redsoftware-hq/innovic-components",
-  "author": "Ronak Baldha <ronak.baldha@gmail.com>",
+  "files": [
+    "dist/**/*"
+  ],
   "license": "MIT",
   "devDependencies": {
-    "grunt": "^1.0.1",
+    "grunt": "^1.0.4",
     "grunt-browser-sync": "^2.2.0",
-    "grunt-contrib-clean": "^1.1.0",
+    "grunt-contrib-clean": "^2.0.0",
     "grunt-contrib-concat": "^1.0.1",
     "grunt-contrib-copy": "^1.0.0",
-    "grunt-contrib-cssmin": "^2.2.0",
-    "grunt-contrib-uglify": "^3.0.1",
-    "grunt-contrib-watch": "^1.0.0",
+    "grunt-contrib-cssmin": "^3.0.0",
+    "grunt-contrib-uglify": "^4.0.1",
+    "grunt-contrib-watch": "^1.1.0",
     "grunt-filerev": "^2.3.1",
-    "grunt-html2js": "^0.3.8",
+    "grunt-html2js": "^0.7.1",
     "grunt-usemin": "^3.1.1"
   },
   "dependencies": {
-    "angular": "^1.6.1",
-    "bootstrap": "^3.3.7",
+    "angular": "^1.7.9",
+    "bootstrap": "^4.4.1",
     "ng-table": "^3.0.1",
-    "underscore": "^1.8.3"
+    "underscore": "^1.9.2",
+    "jquery": "^3.4.1"
   },
   "scripts": {
     "start": "yarn run dev",
     "build": "node_modules/.bin/grunt build",
-    "prod": "node_modules/.bin/grunt prod",
     "dev": "node_modules/.bin/grunt dev"
   }
 }

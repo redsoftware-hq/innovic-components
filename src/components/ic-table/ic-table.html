@@ -1,0 +1,141 @@
+<div ng-if="$ctrl.tableParams" class="innovic-table panel {{$ctrl.isEditing ? 'panel-primary panel-heightened innovic-edit-mode' : 'panel-innovic'}} dynamic-table"
+  style="position: relative; {{!$ctrl.utility.enableIf(null, $ctrl.config.enableIf) ? 'border: 1px solid #f7f7f7' : ''}}">
+  <div ng-if="!$ctrl.utility.enableIf(null, $ctrl.config.enableIf)" class="disabled-area"></div>
+  <!--First step towards Zen Mode-->
+  <!--<div class="full-screen-overlay" ng-show="$ctrl.isEditing"></div>-->
+  <div class="loader" ng-show="$ctrl.updatingTable">
+    <div class="spinner">
+      <div class="rect1"></div>
+      <div class="rect2"></div>
+      <div class="rect3"></div>
+      <div class="rect4"></div>
+      <div class="rect5"></div>
+    </div>
+  </div>
+
+  <div class="panel-heading">
+    <h3 class="panel-title" style="display:inline;">{{$ctrl.title}}</h3>
+    <!-- Looks ugly. Find a better way. -->
+    <!--<span class="label label-info">{{$ctrl.visibleRowCount}}</span>-->
+    <div class="pull-right">
+      <button ng-if="$ctrl.isEditing && $ctrl.utility.active($ctrl.config.buttons.saveTable.active)" ng-show="$ctrl.utility.showIf(null, $ctrl.config.buttons.saveTable.showIf)"
+        ng-disabled="!$ctrl.utility.enableIf(null, $ctrl.config.buttons.saveTable.enableIf)" style="color: #000" class="btn btn-default btn-xs"
+        ng-click="$ctrl.switchEditMode($ctrl.isEditing)">
+        <span class="glyphicon glyphicon-{{$ctrl.config.buttons.saveTable.glyphicon || 'floppy-disk'}}"></span>
+      </button>
+      <button ng-if="!$ctrl.isEditing && $ctrl.utility.active($ctrl.config.buttons.editTable.active)" ng-show="$ctrl.utility.showIf(null, $ctrl.config.buttons.editTable.showIf)"
+        ng-disabled="!$ctrl.utility.enableIf(null, $ctrl.config.buttons.editTable.enableIf)" style="color: #000" class="btn btn-default btn-xs"
+        ng-click="$ctrl.switchEditMode($ctrl.isEditing)">
+        <span class="glyphicon glyphicon-pencil"></span>
+      </button>
+      <button style="color: #000" class="btn btn-default btn-xs" ng-if="$ctrl.isEditing" ng-click="$ctrl.addRow()">
+        <span class="glyphicon glyphicon-plus"></span>
+      </button>
+    </div>
+  </div>
+  <div class="panel-body">
+    <table ng-table-dynamic="$ctrl.tableParams with $ctrl.config.columns" class="table table-bordered table-condensed table-hover editable-table"
+      ng-form="$ctrl.tableForm" show-filter="!$ctrl.isEditing">
+      <tr ng-repeat="row in $data" ng-form="rowForm" ng-init="$ctrl.lastRowIndex = $data.length - 1">
+        <input type="hidden" name="rowData" ng-model="row" />
+        <td ng-repeat="col in $columns" ng-class="rowForm[col.field].$dirty ? 'bg-warning' : ''" ng-form="{{col.field}}">
+          <div ng-if="col.fieldType !== 'command' && (col.readOnly || !$ctrl.isEditing)" class="editable-text" ng-switch="col.fieldType">
+            <div ng-switch-default>
+              <a style="cursor: pointer;" ng-if="col.linkToState" ng-click="col.linkToState(row)">{{row[col.field]}}</a>
+              <span class="{{col.cssClasses}}" ng-if="!col.linkToState">
+                {{row[col.field]}}
+              </span>
+            </div>
+            <div ng-switch-when="date">
+              <a style="cursor: pointer;" ng-if="col.linkToState" ng-click="col.linkToState(row)">{{row[col.field]}}</a>
+              <span ng-if="!col.linkToState">
+                {{row[col.field] | date : 'dd/MM/yyyy'}}
+              </span>
+            </div>
+            <div ng-switch-when="label">
+              <a style="cursor: pointer;" ng-if="col.linkToState" ng-click="col.linkToState(row)">{{row[col.field] || col.field}}</a>
+              <span ng-if="!col.linkToState">
+                {{row[col.field] || col.field}}
+              </span>
+            </div>
+            <div ng-switch-when="row-select">
+              <input name="{{col.field}}" ng-model="row[col.field]" ng-required="col.required" type="checkbox" />
+            </div>
+            <div ng-switch-when="button-link">
+              <a ng-hide="col.hideIf(row)" class="btn btn-block btn-{{col.theme || 'default'}} btn-xs" ng-click="col.linkToState(row)">{{row[col.field] || col.field}}</a>
+            </div>
+            <div ng-switch-when="status">
+              <span class="label label-{{col.combinations[row[col.field]]}}">{{row[col.field]}}</span>
+            </div>
+          </div>
+          <div ng-if="col.fieldType !== 'command' && (!col.readOnly && $ctrl.isEditing)" class="controls" ng-class="rowForm[col.field].$invalid && rowForm[col.field].$dirty ? 'has-error' : ''"
+            ng-switch="col.fieldType">
+            <input ng-switch-default type="text" name="{{col.field}}" ng-model="row[col.field]" class="editable-input form-control input-sm"
+              ng-required="col.required" ng-attr-ng-keydown="col.isLast ? $ctrl.handleLastColumnKeyDown($event, row, rowForm, $parent.$parent.$parent.$parent.$index) : ''"
+            />
+            <input ng-switch-when="number" type="number" name="{{col.field}}" ng-model="row[col.field]" class="editable-input form-control input-sm"
+              ng-required="col.required" ng-attr-ng-keydown="col.isLast ? $ctrl.handleLastColumnKeyDown($event, row, rowForm, $parent.$parent.$parent.$parent.$index) : ''"
+              ng-change="col.onChange && col.onChange($data)" />
+            <input ng-switch-when="date" data-inputmask="'alias': 'dd/mm/yyyy'" type="date" name="{{col.field}}" ng-model="row[col.field]"
+              class="editable-input form-control input-sm" ng-required="col.required" ng-attr-ng-keydown="col.isLast ? $ctrl.handleLastColumnKeyDown($event, row, rowForm, $parent.$parent.$parent.$parent.$index) : ''"
+            />
+            <input ng-switch-when="type-ahead" type="text" name="{{col.field}}" ng-model="row[col.field]" class="editable-input form-control input-sm"
+              uib-typeahead="item as item.Name for item in col.typeAhead.onType($viewValue)" typeahead-editable="col.typeAhead.editable"
+              typeahead-on-select="$ctrl.typeAhead.onSelect($item, row, col.affectedRowProps, col.typeAhead.onSelect)" ng-required="col.required"
+              ng-attr-ng-keydown="col.isLast ? $ctrl.handleLastColumnKeyDown($event, row, rowForm, $parent.$parent.$parent.$parent.$index) : ''"
+            />
+            <select name="{{col.field}}" class="form-control input-sm" ng-switch-when="select" ng-init="resolution = $ctrl.select.resolve(row, col.select)"
+              ng-model="resolution.selected" ng-required="col.required" ng-attr-ng-keydown="col.isLast ? $ctrl.handleLastColumnKeyDown($event, row, rowForm, $parent.$parent.$parent.$parent.$index) : ''"
+              ng-options="option as option[col.select.optionBinding.display] for option in resolution.source track by option[col.select.optionBinding.value]"
+              ng-change="$ctrl.select.onChange(resolution.selected, row, col.affectedRowProps)" ng-disabled="!$ctrl.utility.enableIf(row, col.enableIf)"
+              ng-show="$ctrl.utility.showIf(row, col.showIf)">
+                <option value="" ng-disabled="col.required">Select</option>
+            </select>
+            <label ng-switch-when="label" style="font-weight: normal;">{{row[col.field] || col.field}}</label>
+            <input ng-switch-when="row-select" name="{{col.field}}" ng-model="row[col.field]" ng-required="col.required" type="checkbox"
+            />
+          </div>
+          <div style="width: 100px;" ng-if="col.fieldType === 'command'">
+            <button ng-if="$ctrl.utility.active(col.buttons.saveRow.active)" class="btn btn-success btn-xs" ng-click="$ctrl.save(row, rowForm)"
+              tabindex="-1" ng-disabled="!$ctrl.isEditing || rowForm.$pristine || rowForm.$invalid || !$ctrl.utility.enableIf(row, col.buttons.saveRow.enableIf)"
+              ng-show="$ctrl.utility.showIf(row, col.buttons.saveRow.showIf)">
+                  <span class="glyphicon glyphicon-floppy-disk"></span>
+            </button>
+            <button ng-if="$ctrl.utility.active(col.buttons.deleteRow.active)" class="btn btn-danger btn-xs" ng-click="$ctrl.del(row)"
+              ng-disabled="!$ctrl.utility.enableIf(row, col.buttons.deleteRow.enableIf)" ng-show="$ctrl.utility.showIf(row, col.buttons.deleteRow.showIf)"
+              tabindex="-1">
+                  <span class="glyphicon glyphicon-trash"></span>
+            </button>
+            <button class="btn btn-primary btn-xs" ng-if="$ctrl.utility.active(col.buttons.editRow.active)" ng-click="$ctrl.edit(row)"
+              ng-disabled="!$ctrl.utility.enableIf(row, col.buttons.editRow.enableIf)" ng-show="$ctrl.utility.showIf(row, col.buttons.editRow.showIf)"
+              tabindex="-1">
+                  <span class="fa fa-external-link"></span>
+            </button>
+          </div>
+        </td>
+      </tr>
+    </table>
+  </div>
+  <div class="panel-footer" ng-if="$ctrl.config.footer">
+    <span ng-repeat="button in $ctrl.config.footer.buttons">
+      <span ng-switch="button.type">
+        <button class="btn btn-{{button.style}}" ng-switch-when="row-select" name="button.name" ng-click="$ctrl.rowSelection.onClick(button)">{{button.title}}</button>
+      </span>
+    </span>
+  </div>
+
+</div>
+<!--<div ng-if="!$ctrl.tableParams">
+   <div class="loader">
+    <div class="spinner">
+      <div class="rect1"></div>
+      <div class="rect2"></div>
+      <div class="rect3"></div>
+      <div class="rect4"></div>
+      <div class="rect5"></div>
+    </div>
+  </div>
+</div>-->
+<div ng-if="!$ctrl.tableParams" class="alert alert-warning" role="alert">
+  There is supposed to be a <strong>{{$ctrl.title}}</strong> table here. Wait a while, it must be loading <i class="fa fa-spinner fa-spin fa-fw"></i>
+</div>

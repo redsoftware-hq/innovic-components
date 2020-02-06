@@ -143,7 +143,6 @@ module.exports = function(grunt) {
   grunt.registerTask("build", [
     "clean:dest",
     "clean:tmp",
-    "copy:main",
     "html2js",
     "useminPrepare",
     "concat",
@@ -151,6 +150,6 @@ module.exports = function(grunt) {
     "uglify",
     "usemin"
   ]);
-  grunt.registerTask("prod", ["build", "browserSync:prod"]);
+
   grunt.registerTask("dev", ["html2js", "browserSync:dev", "watch"]);
 };

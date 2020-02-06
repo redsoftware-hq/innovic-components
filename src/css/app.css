@@ -1,0 +1,212 @@
+/*.add-quick-material .app-modal-window .modal-dialog {
+  z-index: 9999 !important;
+}*/
+
+.dynamic-table .panel-body {
+  padding: 0 !important;
+}
+
+.dynamic-table .ng-table-pager .ng-table-counts {
+  overflow: hidden;
+  margin-bottom: 20px;
+  margin-right: 15px;
+}
+
+.dynamic-table .ng-table-pager .ng-table-pagination {
+  margin-left: 15px;
+  font-size: 14px !important;
+}
+
+.dynamic-table .ng-table-pager .ng-table-pagination .page-item .page-link {
+  padding: 6px 12px !important;
+}
+
+.dynamic-table table tbody td {
+  vertical-align: middle !important;
+}
+
+.spinner {
+  position: relative;
+  margin: 100px auto;
+  width: 50px;
+  height: 40px;
+  text-align: center;
+  font-size: 10px;
+  align-self: center;
+}
+
+.spinner > div {
+  background-color: #1c84c6;
+  height: 100%;
+  width: 6px;
+  display: inline-block;
+
+  -webkit-animation: sk-stretchdelay 1.2s infinite ease-in-out;
+  animation: sk-stretchdelay 1.2s infinite ease-in-out;
+}
+
+.spinner .rect2 {
+  -webkit-animation-delay: -1.1s;
+  animation-delay: -1.1s;
+}
+
+.spinner .rect3 {
+  -webkit-animation-delay: -1.0s;
+  animation-delay: -1.0s;
+}
+
+.spinner .rect4 {
+  -webkit-animation-delay: -0.9s;
+  animation-delay: -0.9s;
+}
+
+.spinner .rect5 {
+  -webkit-animation-delay: -0.8s;
+  animation-delay: -0.8s;
+}
+
+@-webkit-keyframes sk-stretchdelay {
+  0%,
+  40%,
+  100% {
+    -webkit-transform: scaleY(0.4);
+  }
+  20% {
+    -webkit-transform: scaleY(1.0);
+  }
+}
+
+@keyframes sk-stretchdelay {
+  0%,
+  40%,
+  100% {
+    transform: scaleY(0.4);
+    -webkit-transform: scaleY(0.4);
+  }
+  20% {
+    transform: scaleY(1.0);
+    -webkit-transform: scaleY(1.0);
+  }
+}
+
+.disabled-area {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  background-color: rgba(255, 255, 255, 0.7);
+  z-index: 9999;
+  position: absolute;
+}
+
+.loader,
+.loader-full-screen,
+.full-screen-overlay {
+  height: 100%;
+  width: 100%;
+  display: flex;
+}
+
+.loader {
+  background-color: rgba(255, 255, 255, 0.7);
+  z-index: 9998;
+}
+
+.loader {
+  position: absolute;
+}
+
+.loader-full-screen {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  background-color: rgba(255, 255, 255, 0.7);
+  z-index: 9999;
+}
+
+.full-screen-overlay {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.2);
+  z-index: -1;
+}
+
+.panel {
+  transition: all 0.5s ease;
+}
+
+.panel-heading {
+  transition: all 0.5s ease;
+}
+
+.panel-innovic {
+  border-color: #563d7c;
+}
+
+.panel-innovic > .panel-heading {
+  background-color: #563d7c;
+  border-color: #563d7c;
+  color: #fff;
+}
+
+.panel.innovic-table .ng-table-filters {
+  transition: all 0.5s ease;
+}
+
+.panel.innovic-table.panel-heightened {
+  -webkit-box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.75);
+  box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.75);
+}
+
+/* Zen Mode */
+/*.panel.innovic-table.innovic-edit-mode {
+  z-index: 9999;
+}
+
+.panel.innovic-table.innovic-edit-mode .panel-body {
+  background: #fff;
+}*/
+
+/*Validation*/
+
+input.ng-invalid,
+select.ng-invalid {
+  border-color: #fa787e;
+}
+
+/* Innovic Custom */
+/*.innovic-page {
+  margin-top: 20px;
+}*/
+
+.container-fluid {
+  /*padding-left: 25px;*/
+  padding-right: 25px;
+}
+
+.panel-heading {
+  border-bottom: none;
+}
+
+.panel-heading a.panel-heading-collapse:after {
+  font-family: 'Glyphicons Halflings';
+  content: "\e114";
+  float: right;
+}
+.panel-heading a.panel-heading-collapse.collapsed:after {
+  /*content:"\2b";*/
+  content: "\e080";
+}
+
+.panel-heading.panel-heading-default a.panel-heading-collapse:after {
+  color: #333;
+}
+
+.panel-heading.panel-heading-innovic a.panel-heading-collapse:after {
+  color: #fff;
+}
