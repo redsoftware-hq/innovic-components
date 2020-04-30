@@ -23,7 +23,7 @@
     "bootstrap": "^4.4.1",
     "ng-table": "^3.0.1",
     "underscore": "^1.9.2",
-    "jquery": "^3.4.1"
+    "jquery": "^3.5.0"
   },
   "scripts": {
     "start": "yarn run dev",
